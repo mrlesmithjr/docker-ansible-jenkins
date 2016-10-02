@@ -1,0 +1,60 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  vars:
+    jenkins_dl_url: 'http://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/{{ jenkins_ver }}'
+    jenkins_dl_file: 'jenkins-war-{{ jenkins_ver }}.war'
+  tasks:
+    - name: Updating APK Cache
+      apk:
+        update_cache: yes
+
+    - name: Installing Jenkins Pre-Reqs
+      apk:
+        name: "{{ item }}"
+        state: "present"
+      with_items:
+        - 'bash'
+        - 'curl'
+        - 'git'
+        - 'openssh-client'
+        - 'supervisor'
+        - 'ttf-dejavu'
+        - 'unzip'
+        - 'zip'
+
+    - name: Checking For Jenkins User
+      shell: "cut -d: -f1 /etc/passwd"
+      register: "users_list"
+
+    - name: Creating Jenkins User
+      command: "adduser -h '{{ jenkins_home }}' -s /bin/bash -D jenkins"
+      when: users_list.stdout.find('jenkins') != 1
+
+    - name: Ensuring Folders Exist
+      file:
+        path: "{{ item }}"
+        state: "directory"
+        owner: "jenkins"
+        group: "jenkins"
+      with_items:
+        - '/usr/share/jenkins/'
+        - '/usr/share/jenkins/ref/init.groovy.d'
+        - '/var/jenkins_home/war/META-INF'
+
+    - name: Downloading Jenkins War File
+      get_url:
+        url: "{{ jenkins_dl_url }}/{{ jenkins_dl_file }}"
+        dest: "/usr/share/jenkins/jenkins.war"
+
+    - name: Ensuring Jenkins Permissions Are Correct
+      file:
+        path: "{{ item }}"
+        state: "directory"
+        recurse: yes
+        owner: "jenkins"
+        group: "jenkins"
+      with_items:
+        - '/usr/share/jenkins'
+        - '/var/jenkins_home'
