@@ -13,6 +13,16 @@ With persistent storage:
 docker run -d -p 8080:8080 -v $PWD:/var/jenkins_home mrlesmithjr/jenkins
 ```
 
+With a shared volume from a data node only [Jenkins] container:
+* Spin up data node
+```
+docker create -v /var/jenkins_home --name jenkins-data mrlesmithjr/jenkins:data-node
+```
+* Spin up Jenkins using the exported volume from `jenkins-data`
+```
+docker run -d -p 8080:8080 --name jenkins-master --volumes-from jenkins-data mrlesmithjr/jenkins
+```
+
 Information
 -----------
 `Dockerfile`
