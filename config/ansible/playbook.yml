@@ -41,7 +41,7 @@
       with_items:
         - '/usr/share/jenkins/'
         - '/usr/share/jenkins/ref/init.groovy.d'
-        - '/var/jenkins_home/war/META-INF'
+        - '{{ jenkins_home }}/war/META-INF'
 
     - name: Downloading Jenkins War File
       get_url:
@@ -57,4 +57,4 @@
         group: "jenkins"
       with_items:
         - '/usr/share/jenkins'
-        - '/var/jenkins_home'
+        - '{{ jenkins_home }}'
