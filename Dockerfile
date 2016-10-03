@@ -1,7 +1,6 @@
-FROM mrlesmithjr/alpine-ansible-java
+FROM mrlesmithjr/alpine-ansible
 
-ENV JENKINS_HOME="/var/jenkins_home" \
-    JENKINS_VER="2.7.4"
+ENV JENKINS_HOME="/var/jenkins_home"
 
 VOLUME /var/jenkins_home
 
@@ -10,7 +9,7 @@ COPY config/ansible/ /
 
 # Run Ansible playbook
 RUN ansible-playbook -i "localhost," -c local /playbook.yml \
-    --extra-vars "jenkins_home=$JENKINS_HOME jenkins_ver=$JENKINS_VER" && \
+    --extra-vars "jenkins_home=$JENKINS_HOME" && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
 
@@ -19,5 +18,3 @@ COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-EXPOSE 8080
