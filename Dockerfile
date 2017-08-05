@@ -1,7 +1,7 @@
 FROM mrlesmithjr/alpine-ansible-java
 
 ENV JENKINS_HOME="/var/jenkins_home" \
-    JENKINS_VER="2.46.2"
+    JENKINS_VER="2.46.3"
 
 VOLUME /var/jenkins_home
 
