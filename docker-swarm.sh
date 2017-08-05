@@ -10,11 +10,11 @@
 set -x
 
 # Define variables
+PERSISTENT_DATA_MOUNT="/mnt/docker-persistent-storage"
 JENKINS_DATA_MOUNT_SOURCE="$PERSISTENT_DATA_MOUNT/jenkins"
 JENKINS_DATA_MOUNT_TARGET="/var/jenkins_home"
 JENKINS_DATA_MOUNT_TYPE="bind"
 JENKINS_IMAGE="mrlesmithjr/jenkins"
-PERSISTENT_DATA_MOUNT="/mnt/docker-persistent-storage"
 
 # Check/create Data Mount Targets
 if [ ! -d $JENKINS_DATA_MOUNT_SOURCE ]; then
