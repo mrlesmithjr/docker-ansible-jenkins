@@ -27,6 +27,6 @@ RC=$?
 if [ $RC != 0 ]; then
   docker service create --name jenkins \
   --mount type=$JENKINS_DATA_MOUNT_TYPE,source=$JENKINS_DATA_MOUNT_SOURCE,target=$JENKINS_DATA_MOUNT_TARGET \
-  --publish 8080 \
+  --publish 8080:8080 \
   $JENKINS_IMAGE
 fi
