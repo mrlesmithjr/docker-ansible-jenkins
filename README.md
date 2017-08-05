@@ -1,37 +1,43 @@
-Repo Info
-=========
-Alpine [Docker] image with [Jenkins] installed.
+# docker-ansible-jenkins
 
-Consuming
----------
-```
+[Alpine](https://alpinelinux.org/) [Docker](https://www.docker.com) image with
+[Jenkins](https://jenkins.io) installed.
+
+## Consuming
+
+```bash
 docker run -d -p 8080:8080 mrlesmithjr/jenkins
 ```
 
 With persistent storage:
-```
+
+```bash
 docker run -d -p 8080:8080 -v $PWD:/var/jenkins_home mrlesmithjr/jenkins
 ```
 
-With a shared volume from a data node only [Jenkins] container:
-* Spin up data node
-```
+With a shared volume from a data node only [Jenkins](https://jenkins.io/) container:
+
+-   Spin up data node
+
+```bash
 docker create -v /var/jenkins_home --name jenkins-data mrlesmithjr/jenkins:data-node
 ```
-* Spin up Jenkins using the exported volume from `jenkins-data`
-```
+
+-   Spin up Jenkins using the exported volume from `jenkins-data`
+
+```bash
 docker run -d -p 8080:8080 --name jenkins-master --volumes-from jenkins-data mrlesmithjr/jenkins
 ```
 
-Information
------------
+## Information
+
 `Dockerfile`
 
-```
+```bash
 FROM mrlesmithjr/alpine-ansible-java
 
 ENV JENKINS_HOME="/var/jenkins_home" \
-    JENKINS_VER="2.19.2"
+    JENKINS_VER="2.60.2"
 
 VOLUME /var/jenkins_home
 
@@ -53,23 +59,15 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE 8080
 ```
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 Larry Smith Jr.
-- [@mrlesmithjr]
-- [everythingshouldbevirtual.com]
-- [mrlesmithjr@gmail.com]
 
-
-[Ansible]: <https://www.ansible.com/>
-[Docker]: <https://www.docker.com>
-[Jenkins]: <https://jenkins.io/>
-[@mrlesmithjr]: <https://twitter.com/mrlesmithjr>
-[everythingshouldbevirtual.com]: <http://everythingshouldbevirtual.com>
-[mrlesmithjr@gmail.com]: <mailto:mrlesmithjr@gmail.com>
+-   [@mrlesmithjr](https://www.twitter.com/mrlesmithjr)
+-   [EverythingShouldBeVirtual](http://www.everythingshouldbevirtual.com)
+-   [mrlesmithjr.com](http://mrlesmithjr.com)
+-   mrlesmithjr [at] gmail.com
