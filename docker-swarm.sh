@@ -16,6 +16,11 @@ JENKINS_DATA_MOUNT_TYPE="bind"
 JENKINS_IMAGE="mrlesmithjr/jenkins"
 PERSISTENT_DATA_MOUNT="/mnt/docker-persistent-storage"
 
+# Check/create Data Mount Targets
+if [ ! -d $JENKINS_DATA_MOUNT_SOURCE ]; then
+  mkdir $JENKINS_DATA_MOUNT_SOURCE
+fi
+
 # Check for running jenkins and spinup if not running
 docker service ls | grep jenkins
 RC=$?
